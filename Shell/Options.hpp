@@ -210,6 +210,12 @@ public:
     CONSTANT,
     ALL,
     GROUND
+  //TODO turn off mathematical induction and just keep structural, perhaps put mathematical under another option
+  enum class Induction : unsigned int {
+    OFF,
+    ALL,
+    CONJECTURE,               // only apply induction to constants appearing in the conjecture
+    CONJECTURE_PLUS           // above plus skolem terms introduced in induction inferences
   };
 
   enum class TheoryAxiomLevel : unsigned int {
@@ -1954,6 +1960,8 @@ public:
   Instantiation instantiation() const { return _instantiation.actualValue; }
   bool theoryFlattening() const { return _theoryFlattening.actualValue; }
 
+  Induction induction() const { return _induction.actualValue; }
+
   float instGenBigRestartRatio() const { return _instGenBigRestartRatio.actualValue; }
   bool instGenPassiveReactivation() const { return _instGenPassiveReactivation.actualValue; }
   int instGenResolutionRatioInstGen() const { return _instGenResolutionInstGenRatio.actualValue; }
@@ -2226,6 +2234,8 @@ private:
   BoolOptionValue _instGenWithResolution;
   BoolOptionValue _useHashingVariantIndex;
   BoolOptionValue _interpretedSimplification;
+
+  ChoiceOptionValue<Induction> _induction;
 
   StringOptionValue _latexOutput;
   BoolOptionValue _latexUseDefaultSymbols;
